@@ -1,3 +1,3 @@
 [submodule "upstream"]
 	path = upstream
-	url = git://github.com/kastork/simkit-mirror.git
+	url = https://github.com/ahbuss/Simkit.git
