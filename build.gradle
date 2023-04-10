@@ -17,18 +17,18 @@ dependencies{
 sourceSets {
   main {
     java {
-      srcDir 'upstream/src'
+      srcDir 'Simkit/src'
     }
     resources {
-      srcDir 'upstream/src'
+      srcDir 'Simkit/src'
     }
   }
   test {
     java {
-      srcDir 'upstream/tests'
+      srcDir 'Simkit/tests'
     }
     resources {
-      srcDir 'upstream/tests'
+      srcDir 'Simkit/tests'
     }
   }
 }
