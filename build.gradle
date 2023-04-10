@@ -1,18 +1,19 @@
+plugins {
+  id "java-library"
+}
 
-apply plugin:'java'
-apply plugin:'maven'
-apply plugin:'signing'
-
-group     = 'com.zenuevo.simkit'
-version   = '1.4.1'
+group     = 'edu.nps.moves'
+version   = '1.5.3'
 
 repositories {
   mavenCentral()
 }
 
-dependencies{
-    testCompile 'junit:junit:4.8.2'
-}
+// We'll leave the testing to upstream.
+
+//dependencies{
+//    testImplementation 'junit:junit:4.13.1'
+//}
 
 sourceSets {
   main {
@@ -23,87 +24,24 @@ sourceSets {
       srcDir 'Simkit/src'
     }
   }
-  test {
-    java {
-      srcDir 'Simkit/tests'
-    }
-    resources {
-      srcDir 'Simkit/tests'
-    }
+//  test {
+//    java {
+//      srcDir 'Simkit/tests'
+//    }
+//    resources {
+//      srcDir 'Simkit/tests'
+//    }
+//  }
+}
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(8)
   }
-}
+  withJavadocJar()
+  withSourcesJar()
 
-//
-// Packaging and deployment
-// Thanks to Yennick Trevels,
-// http://jedicoder.blogspot.com/2011/11/automated-gradle-project-deployment-to.html
-//
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from 'build/docs/javadoc'
-}
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
-}
-
-artifacts {
-    archives jar
-    archives javadocJar
-    archives sourcesJar
-}
-
-signing {
-  sign configurations.archives
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-              authentication(userName: sonatypeUsername, password: sonatypePassword)
-            }
-            
-            pom.project {
-                modelVersion '4.0.0'
-                packaging 'jar'
-                name 'Simkit'
-                description 'Descrete Event Simulation for the JVM)'
-                url 'http://github.com/zenuevo/simkit'
-                organization {
-                  name 'Zenuevo, LLC'
-                  url 'http://github.com/zenuevo'
-                }
-                scm {
-                    url 'http://github.com/zenuevo/simkit'
-                    connection "scm:git:'http://github.com/zenuevo/simkit.git"
-                    developerConnection "scm:git:git@github.com:zenuevo/simkit.git"
-                }
-                licenses {
-                    license {
-                        name 'GNU LESSER GENERAL PUBLIC LICENSE (LGPL)'
-                        url 'http://opensource.org/licenses/LGPL-2.1'
-                        distribution 'repo'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'kastork'
-                        name 'Kirk Stork'
-                        organization 'Zenuevo, LLC'
-                        organizationUrl 'http://github.com/zenuevo'
-                    }
-                    developer {
-                        id 'ahbuss'
-                        name 'Arnie Buss'
-                        organization 'Naval Postgraduate School'
-                        organizationUrl 'http://diana.nps.edu/simkit/'
-                    }
-                }
-            }
-        }
-    }
+  tasks.withType(Jar.class).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+  }
 }
