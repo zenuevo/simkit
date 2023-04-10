@@ -1,8 +1,9 @@
 plugins {
   id "java-library"
+  id "maven-publish"
 }
 
-group     = 'edu.nps.moves'
+group     = 'com.zenuevo.simkit'
 version   = '1.5.3'
 
 repositories {
@@ -45,3 +46,4 @@ java {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   }
 }
+
